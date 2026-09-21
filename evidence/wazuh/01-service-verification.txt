@@ -1,0 +1,35 @@
+Wazuh deployment verification
+Date observed: 2026-09-21
+Guest: smail-virtualbox
+Deployment role: SOC-WAZUH
+
+Service state after reboot
+--------------------------
+wazuh-manager.service   active (running)
+wazuh-indexer.service   active (running)
+wazuh-dashboard.service active (running)
+filebeat.service         active (running)
+
+Installed packages
+------------------
+filebeat         7.10.2-2
+wazuh-dashboard  4.14.7-1
+wazuh-indexer    4.14.7-1
+wazuh-manager    4.14.7-1
+
+Dashboard listener
+------------------
+TCP 443 listening on 0.0.0.0 via the Wazuh dashboard node process.
+
+Observed service memory shortly after reboot
+--------------------------------------------
+wazuh-manager:   ~1.1 GiB
+wazuh-indexer:   ~1.6 GiB
+wazuh-dashboard: ~361 MiB
+filebeat:        ~70 MiB
+
+Installer recovery note
+-----------------------
+The installation assistant did not reach its normal final summary because the VM crashed near the end of deployment and the log ended around a systemd daemon-reload timeout. After reboot, all core services and packages were present and running.
+
+No passwords, tokens, private keys, or certificate material are included in this evidence file.
