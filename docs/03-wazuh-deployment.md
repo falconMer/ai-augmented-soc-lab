@@ -1,6 +1,6 @@
 # Wazuh Deployment
 
-> Status: installed / core services verified after reboot
+> Status: installed / dashboard access verified
 
 ## Goal
 
@@ -47,6 +47,8 @@ Installed packages were also verified:
 
 The dashboard process was confirmed listening on TCP port `443` on `0.0.0.0`.
 
+The dashboard was then accessed successfully from the Windows host at `https://192.168.56.10`. After an initial backend timeout while the services were warming up, the Wazuh Overview loaded successfully and showed the expected fresh-instance state with no agents registered.
+
 ## Validation Checklist
 
 - [x] Wazuh manager service running
@@ -55,19 +57,21 @@ The dashboard process was confirmed listening on TCP port `443` on `0.0.0.0`.
 - [x] Filebeat service running
 - [x] Wazuh packages installed
 - [x] Dashboard listening on TCP/443
-- [ ] Dashboard login verified from Windows host
-- [ ] Indexer/API health verified from the lab network
+- [x] Dashboard login verified from Windows host
+- [x] Dashboard Overview loads successfully
+- [ ] First endpoint agent enrolled
 - [ ] Disk usage checked after installation
 
 ## Evidence
 
-Sanitized command output is stored under:
+Sanitized evidence is stored under:
 
 ```text
 evidence/wazuh/01-service-verification.txt
+evidence/wazuh/02-dashboard-access-verification.txt
 ```
 
-Future screenshots should show the dashboard and service health without exposing credentials.
+Credentials, tokens, private keys, and certificate material are intentionally excluded.
 
 ## Problems / Fixes
 
@@ -93,12 +97,12 @@ The installation assistant was then rerun.
 
 During the successful package deployment, the VM crashed after the dashboard, indexer, manager, and Filebeat had been installed and configured. The installer log ended around a daemon reload timeout instead of printing its normal final summary.
 
-After reboot, all four services started successfully, the packages were present, and the dashboard was listening on TCP/443. The deployment is therefore treated as operational, pending browser login and network-level validation.
+After reboot, all four services started successfully, the packages were present, and the dashboard was listening on TCP/443.
 
-## Next Validation
+### Initial dashboard timeout
 
-1. Open `https://192.168.56.10` from the Windows host.
-2. Accept the expected self-signed certificate warning.
-3. Log in with the locally stored `admin` credentials.
-4. Capture a sanitized dashboard screenshot.
-5. Verify disk and memory usage.
+The first dashboard load returned a 20-second backend timeout. No reinstall was performed. After the Wazuh services had additional startup time, the Overview loaded normally from the Windows host.
+
+## Next Step
+
+Enroll the Windows host as the first monitored endpoint using the Wazuh dashboard's **Deploy new agent** workflow. The manager address for the lab is `192.168.56.10`.
