@@ -1,0 +1,21 @@
+Wazuh dashboard access verification
+Date observed: 2026-09-22
+Client: Windows host
+Dashboard URL: https://192.168.56.10
+
+Verification
+------------
+- HTTPS dashboard reachable from the Windows host.
+- Authentication completed successfully.
+- Wazuh Overview rendered successfully.
+- Fresh-instance Agents Summary reports no agents registered.
+- Overview alert widgets rendered.
+- Initial 20-second backend timeout cleared after allowing services additional startup time.
+
+Security note
+-------------
+The browser reports the site as not secure because the lab deployment uses the default/self-signed HTTPS certificate. No credentials, passwords, tokens, private keys, or certificate material are stored in this evidence file.
+
+Next milestone
+--------------
+Enroll the Windows host as the first Wazuh agent using manager address 192.168.56.10.
