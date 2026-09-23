@@ -13,7 +13,7 @@
 
 | VM | Role | RAM target | Disk target | Lab IP |
 |---|---|---:|---:|---|
-| `SOC-WAZUH` | Wazuh Manager only | ~3 GB | ~15 GB dynamic | `192.168.56.10` |
+| `SOC-WAZUH` | Wazuh Manager only (Ubuntu Server 24.04 LTS) | ~3 GB | ~15 GB dynamic | `192.168.56.10` |
 | `ATTACKER01` | Controlled security-testing workstation | 1.5–2 GB | 8–10 GB dynamic | `192.168.56.20` |
 | `DC01` (optional later) | Windows Server / Active Directory | ~3 GB | only if space permits | `192.168.56.30` |
 
@@ -57,10 +57,10 @@ Bridged networking is intentionally not used for controlled security testing.
 
 The existing full Wazuh VM is a completed prototype and may now be deleted after any desired local backup/snapshot.
 
-Create the final `SOC-WAZUH` VM with:
+Create the final `SOC-WAZUH` VM with Ubuntu Server rather than a desktop distribution to reduce RAM and disk overhead:
 
 ```text
-OS:        Lubuntu 24.04 LTS
+OS:        Ubuntu Server 24.04 LTS
 RAM:       3072 MB
 vCPU:      2
 Disk:      15 GB dynamically allocated
