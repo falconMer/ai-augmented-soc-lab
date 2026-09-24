@@ -1,0 +1,27 @@
+Windows Wazuh agent enrollment verification
+Date observed: 2026-09-24
+Endpoint hostname: FALCON-PC
+Manager: 192.168.56.10
+Agent version: 4.14.8
+
+Observed agent behavior
+-----------------------
+- Initial configuration contained invalid manager address 0.0.0.0.
+- Configuration was corrected to 192.168.56.10.
+- Agent requested an enrollment key from 192.168.56.10.
+- Manager returned a valid key.
+- Agent started successfully.
+- Windows service wazuhsvc remained Running.
+- Application, Security, and System event log collection initialized.
+- File Integrity Monitoring, SCA, and Syscollector initialized.
+
+Duplicate enrollment check
+--------------------------
+A later manual agent-auth attempt returned:
+Duplicate agent name: FALCON-PC
+
+This is consistent with the endpoint having already been enrolled under that hostname.
+
+Pending verification
+--------------------
+Run /var/ossec/bin/agent_control -l on the Wazuh manager VM to confirm manager-side Active status, then verify Windows-origin alerts in alerts.json.
