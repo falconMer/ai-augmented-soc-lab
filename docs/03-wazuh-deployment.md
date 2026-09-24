@@ -1,6 +1,6 @@
 # Wazuh Deployment
 
-> Status: full-stack prototype completed; lightweight manager-only rebuild in progress
+> Status: full-stack prototype completed; lightweight manager-only Wazuh deployment running
 
 ## Goal
 
@@ -69,6 +69,7 @@ Sanitized evidence is stored under:
 ```text
 evidence/wazuh/01-service-verification.txt
 evidence/wazuh/02-dashboard-access-verification.txt
+evidence/wazuh/03-manager-only-service-verification.txt
 ```
 
 Credentials, tokens, private keys, and certificate material are intentionally excluded.
@@ -124,6 +125,19 @@ Before starting the service, the manager configuration is adjusted for the no-in
 - Vulnerability Detection disabled for the initial lightweight phase
 - Wazuh Manager retained for agent communication, rules, decoding, and local JSON alert generation
 
+### Runtime verification
+
+The manager-only deployment was started successfully on 2026-09-24:
+
+- `wazuh-manager.service` is enabled and `active (running)`.
+- Startup completed with `status=0/SUCCESS`.
+- Wazuh core processes including `wazuh-analysisd`, `wazuh-remoted`, `wazuh-authd`, `wazuh-db`, `wazuh-logcollector`, `wazuh-monitord`, `wazuh-syscheckd`, `wazuh-modulesd`, and `wazuh-apid` are running.
+- Cluster mode remains disabled by design.
+- Mail, agentless, integration, and syslog forwarding daemons are not running because they are not required for this lab.
+- Observed manager memory usage shortly after startup: approximately `706.6 MiB`, with a peak of `725.9 MiB`.
+
+This confirms the lightweight redesign is substantially smaller than the earlier all-in-one deployment.
+
 ### Next Step
 
-Back up `/var/ossec/etc/ossec.conf`, disable the indexer connector and Vulnerability Detection module, then enable and start `wazuh-manager`. Verify service health and local alert generation before enrolling the Windows endpoint.
+Verify that local JSON alerts are being written to `/var/ossec/logs/alerts/alerts.json`, confirm the manager is listening on enrollment/agent ports, and then enroll the Windows endpoint.
