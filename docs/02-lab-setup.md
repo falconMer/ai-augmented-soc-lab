@@ -1,6 +1,6 @@
 # Lab Setup and Networking
 
-> Status: SOC-WAZUH interfaces verified / connectivity tests pending
+> Status: SOC-WAZUH networking verified / ready for manager-only Wazuh install
 
 ## Host Hardware
 
@@ -63,8 +63,8 @@ Both interfaces are UP and the host-only address is persistent.
 - [x] NAT and Host-only adapters configured on the SOC VM
 - [x] SOC VM static host-only address confirmed as `192.168.56.10/24`
 - [x] SOC VM NAT address confirmed as `10.0.2.15/24`
-- [ ] SOC VM can reach Windows host at `192.168.56.1`
-- [ ] SOC VM Internet connectivity verified
+- [x] SOC VM can reach Windows host at `192.168.56.1`
+- [x] SOC VM Internet connectivity verified
 - [ ] `ATTACKER01` networking configured
 
 ## Lightweight Rebuild
@@ -101,13 +101,15 @@ The attacker workstation remains off the physical LAN. Controlled reconnaissance
 
 The initial all-in-one Wazuh deployment proved functional but included OpenSearch/Wazuh Indexer and Dashboard, which added unnecessary memory and disk pressure for this small lab. The final design keeps the Wazuh Manager detection engine and consumes local JSON alerts directly.
 
+## Connectivity Verification
+
+Both required paths are now verified:
+
+- Host-only communication from `SOC-WAZUH` to the Windows host at `192.168.56.1`
+- Internet access through the NAT interface
+
+Windows Firewall initially blocked inbound ICMP on the host-only adapter. A lab-scoped ICMPv4 inbound rule for `192.168.56.0/24` resolved the test without exposing the physical LAN.
+
 ## Next Step
 
-Verify host-only and Internet connectivity:
-
-```bash
-ping -c 3 192.168.56.1
-ping -c 3 8.8.8.8
-```
-
-Only after both tests succeed should the Wazuh Manager package be installed.
+Install only the `wazuh-manager` package. Do not install Wazuh Indexer, Wazuh Dashboard, or Filebeat in the final lightweight architecture.
