@@ -1,12 +1,12 @@
 # Wazuh Deployment
 
-> Status: installed / dashboard access verified
+> Status: full-stack prototype completed; lightweight manager-only rebuild in progress
 
 ## Goal
 
-Deploy an all-in-one Wazuh environment containing the manager, indexer, dashboard, and Filebeat on the `SOC-WAZUH` Lubuntu VM.
+Document both the completed all-in-one Wazuh prototype and the final resource-optimized manager-only deployment used by the project.
 
-## Environment
+## Prototype Environment
 
 | Item | Value |
 |---|---|
@@ -103,6 +103,27 @@ After reboot, all four services started successfully, the packages were present,
 
 The first dashboard load returned a 20-second backend timeout. No reinstall was performed. After the Wazuh services had additional startup time, the Overview loaded normally from the Windows host.
 
-## Next Step
+## Final Lightweight Deployment
 
-Enroll the Windows host as the first monitored endpoint using the Wazuh dashboard's **Deploy new agent** workflow. The manager address for the lab is `192.168.56.10`.
+The final lab was rebuilt on Lubuntu 24.04 LTS with only the `wazuh-manager` package. The heavy Indexer/OpenSearch, Dashboard, and Filebeat components are intentionally omitted.
+
+### Package installation verification
+
+On 2026-09-24, package state was verified after a potentially interrupted install:
+
+- `dpkg -l` reported `ii  wazuh-manager 4.14.8-1`, confirming the package is fully installed.
+- `dpkg --audit` returned no output, confirming there are no incomplete package configurations.
+- `systemctl status wazuh-manager` showed the service is installed but currently `inactive (dead)` and disabled; this is a service-start state, not an incomplete package installation.
+- `/var/log/dpkg.log` recorded the package reaching `status installed wazuh-manager:amd64 4.14.8-1`.
+
+### Final architecture intent
+
+Before starting the service, the manager configuration is adjusted for the no-indexer design:
+
+- Wazuh Indexer connector disabled
+- Vulnerability Detection disabled for the initial lightweight phase
+- Wazuh Manager retained for agent communication, rules, decoding, and local JSON alert generation
+
+### Next Step
+
+Back up `/var/ossec/etc/ossec.conf`, disable the indexer connector and Vulnerability Detection module, then enable and start `wazuh-manager`. Verify service health and local alert generation before enrolling the Windows endpoint.
