@@ -1,6 +1,6 @@
 # Lab Setup and Networking
 
-> Status: network validated / lightweight SOC rebuild planned
+> Status: SOC-WAZUH interfaces verified / connectivity tests pending
 
 ## Host Hardware
 
@@ -43,6 +43,17 @@ Bridged networking is intentionally not used for controlled security testing.
 | `ATTACKER01` | `192.168.56.20` |
 | `DC01` later | `192.168.56.30` |
 
+## Verified SOC-WAZUH Interfaces
+
+The lightweight rebuild has the expected dual-interface configuration:
+
+| Interface | Purpose | Address |
+|---|---|---|
+| `enp0s3` | VirtualBox NAT / Internet | `10.0.2.15/24` via DHCP |
+| `enp0s8` | Isolated host-only lab | `192.168.56.10/24` static |
+
+Both interfaces are UP and the host-only address is persistent.
+
 ## Verified Network Milestones
 
 - [x] VirtualBox host-only adapter created
@@ -50,14 +61,15 @@ Bridged networking is intentionally not used for controlled security testing.
 - [x] DHCP disabled
 - [x] Windows host-only address confirmed as `192.168.56.1`
 - [x] NAT and Host-only adapters configured on the SOC VM
-- [x] SOC VM used `192.168.56.10`
-- [x] Windows host successfully reached the Wazuh web service during the full-stack prototype
+- [x] SOC VM static host-only address confirmed as `192.168.56.10/24`
+- [x] SOC VM NAT address confirmed as `10.0.2.15/24`
+- [ ] SOC VM can reach Windows host at `192.168.56.1`
+- [ ] SOC VM Internet connectivity verified
+- [ ] `ATTACKER01` networking configured
 
 ## Lightweight Rebuild
 
-The existing full Wazuh VM is a completed prototype and may now be deleted after any desired local backup/snapshot.
-
-Create the final `SOC-WAZUH` VM with Lubuntu 24.04 LTS. The desktop environment is kept intentionally because VirtualBox clipboard integration is part of the working lab workflow:
+The existing full Wazuh VM was a completed prototype. The final `SOC-WAZUH` VM uses Lubuntu 24.04 LTS because VirtualBox clipboard integration is part of the working lab workflow:
 
 ```text
 OS:        Lubuntu 24.04 LTS
@@ -73,6 +85,14 @@ DNS:       none required on the Host-only interface
 
 The NAT interface remains DHCP-managed and provides the default route.
 
+## Evidence
+
+Sanitized interface verification is stored at:
+
+```text
+evidence/networking/01-soc-interface-verification.txt
+```
+
 ## Security Rationale
 
 The attacker workstation remains off the physical LAN. Controlled reconnaissance and attack simulations must target only dedicated lab systems or the Windows host's lab interface.
@@ -83,12 +103,11 @@ The initial all-in-one Wazuh deployment proved functional but included OpenSearc
 
 ## Next Step
 
-Create the new manager-only `SOC-WAZUH` VM, configure `192.168.56.10/24`, and verify:
+Verify host-only and Internet connectivity:
 
 ```bash
-ip -br address
 ping -c 3 192.168.56.1
 ping -c 3 8.8.8.8
 ```
 
-Only after networking is verified should the Wazuh Manager package be installed.
+Only after both tests succeed should the Wazuh Manager package be installed.
