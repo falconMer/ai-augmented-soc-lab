@@ -1,6 +1,6 @@
 # Windows Telemetry
 
-> Status: Wazuh Windows agent installed and enrolled; manager-side active check pending
+> Status: Wazuh Windows agent enrolled, active, and producing manager-side alerts
 
 ## Goal
 
@@ -66,8 +66,8 @@ A later manual `agent-auth` attempt returned `Duplicate agent name: FALCON-PC`, 
 - [x] Application event log collection enabled
 - [x] Security event log collection enabled
 - [x] System event log collection enabled
-- [ ] Agent confirmed Active with manager-side `agent_control`
-- [ ] Windows-generated alerts confirmed in manager `alerts.json`
+- [x] Agent confirmed Active with manager-side `agent_control`
+- [x] Windows-generated alerts confirmed in manager `alerts.json`
 - [ ] Sysmon installed
 - [ ] Sysmon Operational channel collected by Wazuh
 - [ ] Process creation visible
@@ -84,6 +84,13 @@ Sanitized enrollment evidence is stored at:
 
 ```text
 evidence/windows/01-wazuh-agent-enrollment.txt
+
+Captured visual evidence also confirms:
+
+- Windows `wazuhsvc` service is Running
+- TCP connectivity to manager ports `1514` and `1515`
+- Manager-side `agent_control -l` shows `FALCON-PC` as Active
+- Windows-origin alert JSON is present in the manager alert stream
 ```
 
 Never commit credentials, personal data, or unrelated private host information.
