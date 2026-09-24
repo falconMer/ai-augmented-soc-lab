@@ -1,0 +1,40 @@
+Wazuh local alert pipeline verification
+Date observed: 2026-09-24
+Deployment: manager-only
+
+Alert files
+-----------
+/var/ossec/logs/alerts/alerts.json  present and active
+/var/ossec/logs/alerts/alerts.log   present and active
+
+Observed JSON alert content
+---------------------------
+- Parsed Wazuh rule metadata
+- Rule level and description
+- MITRE ATT&CK mappings where applicable
+- Agent and manager metadata
+- Decoded event fields
+- Original log source
+
+Observed detections included
+----------------------------
+- Successful sudo to root
+- PAM login/session events
+- Listening port state changes
+
+Observed manager listeners
+--------------------------
+1514/TCP  wazuh-remoted
+1515/TCP  wazuh-authd
+55000/TCP Wazuh API
+
+Conclusion
+----------
+The final architecture can use /var/ossec/logs/alerts/alerts.json as the input to the custom Python SOC backend without Wazuh Indexer, Dashboard, or Filebeat.
+
+Resource snapshot
+-----------------
+Guest memory: 7.8 GiB total, approximately 1.2 GiB used
+Guest filesystem: 40 GiB total, 11 GiB used, 27 GiB available
+
+Note: the VM allocation is currently larger than the final target and can be reduced independently of the Wazuh manager-only architecture.
