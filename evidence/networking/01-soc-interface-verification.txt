@@ -1,0 +1,27 @@
+SOC-WAZUH network interface verification
+
+Observed configuration
+----------------------
+enp0s3
+  State: UP
+  Purpose: VirtualBox NAT
+  IPv4: 10.0.2.15/24
+  Assignment: DHCP
+
+enp0s8
+  State: UP
+  Purpose: VirtualBox Host-only lab network
+  IPv4: 192.168.56.10/24
+  Assignment: static
+  Broadcast: 192.168.56.255
+
+lo
+  IPv4: 127.0.0.1/8
+
+Result
+------
+The final lightweight SOC VM has the intended dual-interface layout:
+- NAT for Internet/package access
+- Host-only networking for isolated lab communication
+
+Connectivity to 192.168.56.1 and the Internet is verified separately before installing Wazuh Manager.
