@@ -41,7 +41,7 @@ flowchart TD
 | System | Role | Lab IP | Target resources |
 |---|---|---|---|
 | Windows host | Monitored endpoint | `192.168.56.1` | Physical host |
-| `SOC-WAZUH` | Wazuh Manager / detection engine | `192.168.56.10` | Ubuntu Server 24.04 LTS, ~3 GB RAM, 2 vCPU, 15 GB dynamic disk |
+| `SOC-WAZUH` | Wazuh Manager / detection engine | `192.168.56.10` | Lubuntu 24.04 LTS, ~3 GB RAM, 2 vCPU, 15 GB dynamic disk |
 | `ATTACKER01` | Controlled security-testing workstation | `192.168.56.20` | 1.5–2 GB RAM, 2 vCPU, 8–10 GB dynamic disk |
 | `DC01` (optional later) | Active Directory scenarios | `192.168.56.30` | Run only when needed |
 
