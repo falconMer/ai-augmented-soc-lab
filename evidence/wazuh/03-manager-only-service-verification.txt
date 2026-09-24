@@ -1,0 +1,42 @@
+Wazuh manager-only runtime verification
+Date observed: 2026-09-24
+Guest: smail-virtualbox
+Deployment role: SOC-WAZUH
+Wazuh version: 4.14.8-1
+
+systemd state
+-------------
+wazuh-manager.service
+  Loaded: enabled
+  Active: active (running)
+  ExecStart: completed with status=0/SUCCESS
+
+Observed memory
+---------------
+Current: ~706.6 MiB
+Peak:    ~725.9 MiB
+
+Running Wazuh components
+------------------------
+wazuh-modulesd
+wazuh-monitord
+wazuh-logcollector
+wazuh-remoted
+wazuh-syscheckd
+wazuh-analysisd
+wazuh-execd
+wazuh-db
+wazuh-authd
+wazuh-apid
+
+Intentionally not running / not required
+----------------------------------------
+wazuh-clusterd
+wazuh-maild
+wazuh-agentlessd
+wazuh-integratord
+wazuh-csyslogd
+
+Architecture note
+-----------------
+The final lab intentionally omits Wazuh Indexer/OpenSearch, Wazuh Dashboard, and Filebeat. Vulnerability Detection and the Indexer connector are disabled in ossec.conf. The manager is retained for agent communication, decoding, rules, and local JSON alert generation.
