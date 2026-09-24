@@ -70,6 +70,7 @@ Sanitized evidence is stored under:
 evidence/wazuh/01-service-verification.txt
 evidence/wazuh/02-dashboard-access-verification.txt
 evidence/wazuh/03-manager-only-service-verification.txt
+evidence/wazuh/04-local-alert-pipeline-verification.txt
 ```
 
 Credentials, tokens, private keys, and certificate material are intentionally excluded.
@@ -138,6 +139,24 @@ The manager-only deployment was started successfully on 2026-09-24:
 
 This confirms the lightweight redesign is substantially smaller than the earlier all-in-one deployment.
 
+### Local alert pipeline verification
+
+The manager-only deployment is successfully generating local alerts:
+
+- `/var/ossec/logs/alerts/alerts.json` exists and was actively growing.
+- JSON alerts include parsed rule metadata, MITRE ATT&CK mappings, source event data, agent/manager metadata, and the original log.
+- Example manager-local detections included successful sudo activity, PAM session events, and listening-port changes.
+- The manager's own network telemetry confirmed listeners on:
+  - `1514/TCP` — `wazuh-remoted`
+  - `1515/TCP` — `wazuh-authd`
+  - `55000/TCP` — Wazuh API
+
+This validates the core interface for the custom SOC backend: Wazuh can perform local decoding/rule evaluation and produce JSON alerts without Indexer, Dashboard, or Filebeat.
+
+### Resource observation
+
+At this point the guest reported approximately 1.2 GiB RAM in use. The VM itself is still allocated about 8 GiB RAM and has a 40 GiB guest filesystem, which is larger than the final target. The manager-only service footprint leaves enough headroom to reduce the VM allocation later.
+
 ### Next Step
 
-Verify that local JSON alerts are being written to `/var/ossec/logs/alerts/alerts.json`, confirm the manager is listening on enrollment/agent ports, and then enroll the Windows endpoint.
+Reduce the VM RAM allocation to the final target if desired, then enroll the Windows endpoint against manager address `192.168.56.10` and verify that endpoint-generated alerts appear in `alerts.json`.
