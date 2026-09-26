@@ -1,6 +1,6 @@
 # Windows Telemetry
 
-> Status: paused after Windows agent enrollment and manager-side alert verification; Sysmon not started
+> Status: Wazuh Windows agent enrolled, active, and producing manager-side alerts; Sysmon not started
 
 ## Goal
 
@@ -95,16 +95,3 @@ Captured visual evidence also confirms:
 
 Never commit credentials, personal data, or unrelated private host information.
 
-
-## Pause Point
-
-The lab was intentionally paused before the Sysmon phase.
-
-Current verified state:
-
-- Wazuh Manager-only deployment is running successfully.
-- Windows endpoint `FALCON-PC` is enrolled and Active.
-- Windows Security telemetry reaches `/var/ossec/logs/alerts/alerts.json`.
-- Sysmon has **not** been installed or configured yet.
-
-When resuming, start from the Sysmon installation and Wazuh Sysmon-channel collection steps. No additional recovery work should be required if the VM and Windows agent are shut down cleanly.
