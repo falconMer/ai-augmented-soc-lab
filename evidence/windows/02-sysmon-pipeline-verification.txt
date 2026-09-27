@@ -1,0 +1,35 @@
+Sysmon telemetry pipeline verification
+Date: 2026-09-27
+
+Endpoint
+--------
+Agent ID: 001
+Agent name: FALCON-PC
+Agent IP: 192.168.56.1
+
+Collection verification
+-----------------------
+The Wazuh Windows agent confirmed collection of:
+Microsoft-Windows-Sysmon/Operational
+
+Manager-side verification
+-------------------------
+A Sysmon event from FALCON-PC was present in:
+/var/ossec/logs/archives/archives.json
+
+Observed event
+--------------
+Provider: Microsoft-Windows-Sysmon
+Event ID: 5
+Channel: Microsoft-Windows-Sysmon/Operational
+Computer: FALCON-PC
+Image: C:\Windows\System32\conhost.exe
+
+Conclusion
+----------
+The end-to-end telemetry path is verified:
+Windows activity -> Sysmon -> Windows Event Channel -> Wazuh Agent -> Wazuh Manager -> JSON pipeline.
+
+Operational note
+----------------
+Raw JSON archiving was enabled only for verification. Normal operation should keep logall_json disabled to conserve disk space.
