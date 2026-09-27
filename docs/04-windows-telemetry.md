@@ -1,6 +1,6 @@
 # Windows Telemetry
 
-> Status: Wazuh Windows agent enrolled, active, and producing manager-side alerts; Sysmon not started
+> Status: Windows agent and Sysmon telemetry verified end-to-end
 
 ## Goal
 
@@ -68,8 +68,8 @@ A later manual `agent-auth` attempt returned `Duplicate agent name: FALCON-PC`, 
 - [x] System event log collection enabled
 - [x] Agent confirmed Active with manager-side `agent_control`
 - [x] Windows-generated alerts confirmed in manager `alerts.json`
-- [ ] Sysmon installed
-- [ ] Sysmon Operational channel collected by Wazuh
+- [x] Sysmon installed
+- [x] Sysmon Operational channel collected by Wazuh
 - [ ] Process creation visible
 - [ ] Authentication events visible
 - [ ] Network-related events visible where configured
@@ -84,6 +84,7 @@ Sanitized enrollment evidence is stored at:
 
 ```text
 evidence/windows/01-wazuh-agent-enrollment.txt
+evidence/windows/02-sysmon-pipeline-verification.txt
 
 Captured visual evidence also confirms:
 
@@ -95,3 +96,38 @@ Captured visual evidence also confirms:
 
 Never commit credentials, personal data, or unrelated private host information.
 
+
+
+## Sysmon Verification
+
+Sysmon was installed on the Windows endpoint and the Wazuh agent was configured to collect:
+
+```text
+Microsoft-Windows-Sysmon/Operational
+```
+
+The Windows agent log confirmed that Wazuh was analyzing the Sysmon Operational channel.
+
+To verify the complete telemetry path, Wazuh raw JSON archiving was enabled temporarily, a harmless process event was generated on the Windows endpoint, and the manager archive was queried for Sysmon events from `FALCON-PC`.
+
+The manager received a Sysmon Event ID 5 (process termination) from agent `001`, including:
+
+- provider: `Microsoft-Windows-Sysmon`
+- endpoint: `FALCON-PC`
+- source IP: `192.168.56.1`
+- channel: `Microsoft-Windows-Sysmon/Operational`
+- process image: `C:\Windows\System32\conhost.exe`
+- user: `FALCON-PC\HP`
+
+This confirms the end-to-end path:
+
+```text
+Windows process activity
+    -> Sysmon
+    -> Windows Event Channel
+    -> Wazuh Agent
+    -> Wazuh Manager
+    -> archives.json / rules pipeline
+```
+
+Raw event archiving is intended only for short verification windows because the final lab is disk constrained. The normal operating mode keeps `logall_json` disabled.
