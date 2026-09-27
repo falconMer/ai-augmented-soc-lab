@@ -20,7 +20,7 @@ Wazuh Manager
 /var/ossec/logs/alerts/alerts.json
 ```
 
-Sysmon will be added after baseline Wazuh agent connectivity is verified.
+Sysmon is installed and its Operational channel is collected by the Wazuh agent.
 
 ## Wazuh Agent Enrollment
 
@@ -85,6 +85,7 @@ Sanitized enrollment evidence is stored at:
 ```text
 evidence/windows/01-wazuh-agent-enrollment.txt
 evidence/windows/02-sysmon-pipeline-verification.txt
+```
 
 Captured visual evidence also confirms:
 
@@ -92,7 +93,6 @@ Captured visual evidence also confirms:
 - TCP connectivity to manager ports `1514` and `1515`
 - Manager-side `agent_control -l` shows `FALCON-PC` as Active
 - Windows-origin alert JSON is present in the manager alert stream
-```
 
 Never commit credentials, personal data, or unrelated private host information.
 
