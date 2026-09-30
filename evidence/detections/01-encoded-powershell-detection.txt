@@ -1,0 +1,41 @@
+Detection validation: encoded PowerShell
+Date: 2026-09-30
+
+Rule
+----
+ID: 100100
+Level: 8
+Description: AI-SOC: PowerShell executed with an encoded command
+
+Telemetry
+---------
+Endpoint: FALCON-PC
+Agent ID: 001
+Source: Microsoft-Windows-Sysmon/Operational
+Sysmon Event ID: 1
+Event type: Process Create
+Process: powershell.exe
+Integrity level: High
+
+Detection logic
+---------------
+- Sysmon process creation event
+- Image ends with powershell.exe
+- Command line contains -enc or -EncodedCommand
+
+MITRE ATT&CK
+------------
+T1059.001 - PowerShell
+Tactic: Execution
+
+Validation
+----------
+A harmless Base64-encoded PowerShell command was executed with -EncodedCommand.
+
+Result
+------
+The custom Wazuh rule fired successfully and produced a level 8 alert in alerts.json.
+
+Privacy
+-------
+Usernames, command payload content, hashes, GUIDs, and other host-specific details are intentionally omitted from this evidence file.
