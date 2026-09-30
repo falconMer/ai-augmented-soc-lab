@@ -45,6 +45,28 @@ flowchart TD
 | `ATTACKER01` | Controlled security-testing workstation | `192.168.56.20` | 1.5–2 GB RAM, 2 vCPU, 8–10 GB dynamic disk |
 | `DC01` (optional later) | Active Directory scenarios | `192.168.56.30` | Run only when needed |
 
+## Networking Screenshots
+
+The VirtualBox networking setup uses a manually configured host-only network, a NAT adapter for Internet access, and a host-only adapter for isolated lab traffic. DHCP is disabled on the host-only network so lab systems can use static addresses.
+
+### Host-only network configuration
+
+![VirtualBox host-only network configuration](screenshots/networking/01-host-only-network-config.png)
+
+### VM NAT adapter
+
+![VirtualBox NAT adapter](screenshots/networking/02-vm-adapter-nat.png)
+
+### VM host-only adapter
+
+![VirtualBox host-only VM adapter](screenshots/networking/03-vm-adapter-host-only.png)
+
+### Host-only DHCP server disabled
+
+![VirtualBox host-only DHCP server disabled](screenshots/networking/04-dhcp-disabled.png)
+
+See [Networking Evidence](screenshots/networking/README.md) for configuration details and remaining validation.
+
 ## Architecture History
 
 ### Prototype — full Wazuh SIEM ✅

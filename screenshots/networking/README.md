@@ -25,13 +25,18 @@ The first VM network adapter is configured as **NAT** to provide Internet access
 
 ![VirtualBox host-only VM adapter](03-vm-adapter-host-only.png)
 
-The second VM network adapter is configured as **Host-only Adapter** using `VirtualBox Host-Only Ethernet Adapter`. This interface will carry isolated SOC lab traffic.
+The second VM network adapter is configured as **Host-only Adapter** using `VirtualBox Host-Only Ethernet Adapter #2`. This interface will carry isolated SOC lab traffic.
+
+### 4. Host-only DHCP server disabled
+
+![VirtualBox host-only DHCP server disabled](04-dhcp-disabled.png)
+
+The **Enable Server** checkbox is unchecked on the **DHCP Server** tab, confirming that DHCP is disabled for the host-only network. Lab systems use static host-only IP addresses.
 
 ## Remaining validation
 
 These screenshots confirm the planned adapter configuration, but the following still need separate verification before the networking phase is considered complete:
 
-- DHCP server disabled for the host-only network
 - Windows `ipconfig` confirms the host-only interface address
 - Static IP assignment inside each Lubuntu VM
 - Connectivity tests between the host, Wazuh VM, and testing VM
