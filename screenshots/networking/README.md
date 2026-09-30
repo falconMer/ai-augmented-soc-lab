@@ -6,7 +6,7 @@ This folder contains screenshots captured during the initial VirtualBox networki
 
 ### 1. Host-only network configuration
 
-![VirtualBox host-only network configuration](01-host-only-network-config.png)
+![VirtualBox host-only network configuration](https://raw.githubusercontent.com/falconMer/ai-augmented-soc-lab/0cf5f7e1ad13e4184a7c329526b860ae6424a3cc/screenshots/networking/01-host-only-network-config.png)
 
 Verified from the screenshot:
 
@@ -17,13 +17,13 @@ Verified from the screenshot:
 
 ### 2. VM NAT adapter
 
-![VirtualBox NAT adapter](02-vm-adapter-nat.png)
+![VirtualBox NAT adapter](https://raw.githubusercontent.com/falconMer/ai-augmented-soc-lab/0cf5f7e1ad13e4184a7c329526b860ae6424a3cc/screenshots/networking/02-vm-adapter-nat.png)
 
 The first VM network adapter is configured as **NAT** to provide Internet access for package installation, updates, documentation, and API access.
 
 ### 3. VM host-only adapter
 
-![VirtualBox host-only VM adapter](03-vm-adapter-host-only.png)
+![VirtualBox host-only VM adapter](https://raw.githubusercontent.com/falconMer/ai-augmented-soc-lab/0cf5f7e1ad13e4184a7c329526b860ae6424a3cc/screenshots/networking/03-vm-adapter-host-only.png)
 
 The second VM network adapter is configured as **Host-only Adapter** using `VirtualBox Host-Only Ethernet Adapter #2`. This interface will carry isolated SOC lab traffic.
 

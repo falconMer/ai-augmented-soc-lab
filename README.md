@@ -51,15 +51,15 @@ The VirtualBox networking setup uses a manually configured host-only network, a 
 
 ### Host-only network configuration
 
-![VirtualBox host-only network configuration](screenshots/networking/01-host-only-network-config.png)
+![VirtualBox host-only network configuration](https://raw.githubusercontent.com/falconMer/ai-augmented-soc-lab/0cf5f7e1ad13e4184a7c329526b860ae6424a3cc/screenshots/networking/01-host-only-network-config.png)
 
 ### VM NAT adapter
 
-![VirtualBox NAT adapter](screenshots/networking/02-vm-adapter-nat.png)
+![VirtualBox NAT adapter](https://raw.githubusercontent.com/falconMer/ai-augmented-soc-lab/0cf5f7e1ad13e4184a7c329526b860ae6424a3cc/screenshots/networking/02-vm-adapter-nat.png)
 
 ### VM host-only adapter
 
-![VirtualBox host-only VM adapter](screenshots/networking/03-vm-adapter-host-only.png)
+![VirtualBox host-only VM adapter](https://raw.githubusercontent.com/falconMer/ai-augmented-soc-lab/0cf5f7e1ad13e4184a7c329526b860ae6424a3cc/screenshots/networking/03-vm-adapter-host-only.png)
 
 ### Host-only DHCP server disabled
 
