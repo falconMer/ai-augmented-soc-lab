@@ -71,6 +71,8 @@ Sanitized validation evidence:
 evidence/detections/01-encoded-powershell-detection.txt
 ```
 
+![Wazuh alert for the encoded PowerShell detection rule](../screenshots/detections/01-encoded-powershell-rule-fired.png)
+
 Rule source:
 
 ```text

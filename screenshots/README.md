@@ -9,4 +9,4 @@ Before committing an image, verify that it does not expose:
 - unrelated files, browser tabs, or notifications
 - tokens, enrollment secrets, or private keys
 
-Suggested folders will be added as evidence is collected: Wazuh, detections, AI investigation, and dashboard.
+Evidence is organized by category. See the [networking evidence](networking/README.md) and the [encoded PowerShell rule alert](detections/01-encoded-powershell-rule-fired.png). The `detections/` folder holds detection screenshots; Wazuh, AI investigation, and dashboard folders can be added as evidence is collected.
