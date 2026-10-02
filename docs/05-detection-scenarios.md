@@ -153,6 +153,38 @@ PowerShell legitimately starts `cmd.exe` in some administrative and automation w
 
 Its value increases when correlated with the encoded-PowerShell alert from rule `100100`.
 
+## Lab Finding — Sysmon Event ID 3 Live Rule Dispatch
+
+### Objective
+
+Validate a third signal for PowerShell network activity using Sysmon Event ID 3.
+
+### What was verified
+
+- Sysmon generated Event ID 3 on `FALCON-PC`.
+- The Wazuh agent forwarded the event.
+- Wazuh Manager received it.
+- The event appeared in `archives.json` when raw archiving was temporarily enabled.
+- The event decoded with the expected fields, including process image, source/destination IPs, and destination port.
+- A self-contained custom rule for Sysmon Event ID 3 matched successfully in `wazuh-logtest` and reported that an alert would be generated.
+
+### Live-processing result
+
+The same rule did not generate a live alert in `alerts.json`, even after testing both:
+
+- a standalone field-based rule, and
+- a rule chained from the base Windows EventChannel rule with `if_sid 60000`.
+
+Because collection, forwarding, decoding, and rule logic were all separately validated, this scenario is recorded as a Wazuh live-processing limitation rather than a failed telemetry configuration.
+
+The lab therefore keeps rules `100100` and `100101` as the validated detection baseline and moves correlation into the custom Python backend instead of spending additional time on this SIEM-specific behavior.
+
+### Evidence
+
+```text
+evidence/troubleshooting/01-sysmon-event3-live-rule-dispatch.txt
+```
+
 ## Planned Scenarios
 
 - Network reconnaissance / service discovery
