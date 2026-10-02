@@ -1,6 +1,6 @@
 # Detection Scenarios
 
-> Status: first custom detection validated
+> Status: two custom Sysmon detections validated
 
 Each scenario documents the objective, telemetry source, detection logic, ATT&CK mapping, validation result, limitations, and improvement ideas.
 
@@ -96,6 +96,62 @@ Future correlation can increase confidence by combining this signal with:
 - repeated encoded PowerShell executions
 - known-bad IOC enrichment
 - high-risk user or host context
+
+## Scenario 2 — PowerShell Spawns Windows Command Shell
+
+### Objective
+
+Detect a Sysmon Process Create event where `cmd.exe` is launched by `powershell.exe`.
+
+### Detection logic
+
+The rule is evaluated for `sysmon_event1` events and requires both:
+
+1. `win.eventdata.image` ends in `cmd.exe`
+2. `win.eventdata.parentImage` ends in `powershell.exe`
+
+### MITRE ATT&CK
+
+- `T1059.003` — Windows Command Shell
+- Tactic: Execution
+
+### Controlled validation
+
+A harmless encoded PowerShell command launched:
+
+```text
+cmd.exe /c echo AI-SOC-CORRELATION-TEST
+```
+
+The test intentionally created a direct process relationship:
+
+```text
+powershell.exe
+    -> cmd.exe
+```
+
+### Result
+
+Rule `100101` fired successfully at level `6` on endpoint `FALCON-PC`.
+
+The Sysmon event showed:
+
+- Event ID `1` — Process Create
+- Image: `cmd.exe`
+- Parent image: `powershell.exe`
+- Matching parent process ID / process relationship with the preceding encoded PowerShell execution
+
+### Evidence
+
+```text
+evidence/detections/02-powershell-cmd-chain.txt
+```
+
+### False-positive considerations
+
+PowerShell legitimately starts `cmd.exe` in some administrative and automation workflows. This rule is therefore a contextual signal rather than a high-confidence compromise indicator by itself.
+
+Its value increases when correlated with the encoded-PowerShell alert from rule `100100`.
 
 ## Planned Scenarios
 
