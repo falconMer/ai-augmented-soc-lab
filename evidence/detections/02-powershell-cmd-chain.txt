@@ -1,0 +1,38 @@
+Detection validation: PowerShell spawned Windows Command Shell
+Date: 2026-10-01
+
+Rule
+----
+ID: 100101
+Level: 6
+Description: AI-SOC: PowerShell spawned Windows Command Shell
+
+Telemetry
+---------
+Endpoint: FALCON-PC
+Agent ID: 001
+Source: Microsoft-Windows-Sysmon/Operational
+Sysmon Event ID: 1
+Event type: Process Create
+
+Observed process relationship
+-----------------------------
+Child image: C:\Windows\System32\cmd.exe
+Parent image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+
+MITRE ATT&CK
+------------
+T1059.003 - Windows Command Shell
+Tactic: Execution
+
+Validation
+----------
+A harmless encoded PowerShell test launched cmd.exe to print an AI-SOC test string.
+
+Result
+------
+The custom Wazuh rule fired successfully and produced a level 6 alert in alerts.json.
+
+Correlation relevance
+---------------------
+This signal is intentionally lower severity on its own. It becomes more meaningful when correlated with rule 100100 (encoded PowerShell) on the same process chain and within a short time window.
