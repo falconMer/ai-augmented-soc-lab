@@ -1,0 +1,35 @@
+Sysmon Event ID 3 live rule-dispatch investigation
+Date: 2026-10-02
+
+Environment
+-----------
+Wazuh Manager: 4.14.8
+Endpoint: FALCON-PC
+Telemetry source: Microsoft-Windows-Sysmon/Operational
+
+Verified pipeline
+-----------------
+1. Windows generated Sysmon Event ID 3.
+2. Wazuh Agent forwarded the event.
+3. Wazuh Manager received the event.
+4. The event appeared in archives.json with raw archiving temporarily enabled.
+5. Decoded fields included:
+   - win.system.providerName = Microsoft-Windows-Sysmon
+   - win.system.eventID = 3
+   - win.eventdata.image = powershell.exe
+   - source/destination IP and port fields
+6. A self-contained custom rule matched in wazuh-logtest:
+   - rule ID 100102
+   - level 7
+   - description: AI-SOC: PowerShell initiated a network connection
+   - logtest reported that an alert would be generated.
+7. The same event did not generate rule 100102 in live alerts.json processing.
+8. Chaining the rule from base Windows EventChannel rule 60000 also did not produce a live alert.
+
+Conclusion
+----------
+Telemetry collection and decoding are working. The rule logic itself is also valid in wazuh-logtest. The failure is isolated to live rule dispatch for this Sysmon Event ID in the current Wazuh environment.
+
+Project decision
+----------------
+Do not spend further project time forcing this signal through Wazuh. Keep validated rules 100100 and 100101 as the detection baseline and implement correlation and additional logic in the custom Python SOC backend.
