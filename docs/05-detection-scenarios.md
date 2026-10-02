@@ -185,6 +185,16 @@ The lab therefore keeps rules `100100` and `100101` as the validated detection b
 evidence/troubleshooting/01-sysmon-event3-live-rule-dispatch.txt
 ```
 
+The following screenshots show the troubleshooting sequence:
+
+![Sysmon Event ID 3 received by Wazuh - part 1](../screenshots/troubleshooting/01-sysmon-event3-received-part1.png)
+
+![Sysmon Event ID 3 received by Wazuh - part 2](../screenshots/troubleshooting/02-sysmon-event3-received-part2.png)
+
+![Rule 100102 matching in wazuh-logtest](../screenshots/troubleshooting/03-event3-rule-logtest-match.png)
+
+Together, these screenshots show that the network event reached Wazuh with the expected Sysmon fields and that the custom rule matched in `wazuh-logtest`, even though the same rule did not produce a live entry in `alerts.json`.
+
 ## Planned Scenarios
 
 - Network reconnaissance / service discovery
