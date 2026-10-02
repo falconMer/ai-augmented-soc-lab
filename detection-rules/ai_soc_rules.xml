@@ -1,5 +1,6 @@
 <group name="ai_soc,sysmon,powershell,">
 
+  <!-- Detection 1: Encoded PowerShell -->
   <rule id="100100" level="8">
     <if_group>sysmon_event1</if_group>
 
@@ -16,6 +17,25 @@
     </mitre>
 
     <group>execution,suspicious_powershell,</group>
+  </rule>
+
+  <!-- Detection 2: PowerShell spawning Windows Command Shell -->
+  <rule id="100101" level="6">
+    <if_group>sysmon_event1</if_group>
+
+    <field name="win.eventdata.image"
+           type="pcre2">(?i)\\cmd\.exe$</field>
+
+    <field name="win.eventdata.parentImage"
+           type="pcre2">(?i)\\powershell\.exe$</field>
+
+    <description>AI-SOC: PowerShell spawned Windows Command Shell</description>
+
+    <mitre>
+      <id>T1059.003</id>
+    </mitre>
+
+    <group>execution,powershell_child_process,</group>
   </rule>
 
 </group>
